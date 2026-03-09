@@ -1,60 +1,47 @@
-import { Board } from "@/components/board";
-import { Card, CardContent } from "@/components/ui/card";
+import { Board } from "@/features/tasks/components/board";
+import { StatisticCard } from "@/features/tasks/components/statistic-card";
 import {
   CheckCircleIcon,
   ClockIcon,
-  ListTodo,
-  LoaderCircleIcon
+  ListTodoIcon,
+  LoaderCircleIcon,
+  XIcon
 } from "lucide-react";
 
 export function Home() {
   return (
     <section className="w-full min-h-screen flex flex-col gap-12">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <Card className="max-w-52 md:max-w-80">
-          <CardContent className="flex items-center justify-start gap-4">
-            <div className="h-10 w-10 md:h-12 md:w-12 p-2 flex items-center justify-center bg-zinc-300  rounded-xl">
-              <ListTodo className="text-zinc-700" />
-            </div>
-            <div>
-              <h3 className="text-2xl font-bold">2</h3>
-              <p className="text-zinc-400">Total</p>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="max-w-52 md:max-w-80">
-          <CardContent className="flex items-center justify-start gap-4">
-            <div className="h-10 w-10 md:h-12 md:w-12 p-2 flex items-center justify-center bg-zinc-300  rounded-xl">
-              <ClockIcon className="text-zinc-700" />
-            </div>
-            <div>
-              <h3 className="text-2xl font-bold">2</h3>
-              <p className="text-zinc-400">A Fazer</p>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="max-w-52 md:max-w-80">
-          <CardContent className="flex items-center justify-start gap-4">
-            <div className="h-10 w-10 md:h-12 md:w-12 p-2 flex items-center justify-center bg-blue-200  rounded-xl">
-              <LoaderCircleIcon className="text-blue-600" />
-            </div>
-            <div>
-              <h3 className="text-2xl font-bold">2</h3>
-              <p className="text-zinc-400">Em Progresso</p>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="max-w-52 md:max-w-80">
-          <CardContent className="flex items-center justify-start gap-4">
-            <div className="h-10 w-10 md:h-12 md:w-12 p-2 flex items-center justify-center bg-green-200  rounded-xl">
-              <CheckCircleIcon className="text-green-600" />
-            </div>
-            <div>
-              <h3 className="text-2xl font-bold">2</h3>
-              <p className="text-zinc-400">Concluídas</p>
-            </div>
-          </CardContent>
-        </Card>
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+        <StatisticCard
+          num={14}
+          title="Total"
+          iconBg="bg-zinc-300"
+          icon={<ListTodoIcon className="text-zinc-700" />}
+        />
+        <StatisticCard
+          num={2}
+          title="A Fazer"
+          iconBg="bg-zinc-300"
+          icon={<ClockIcon className="text-zinc-700" />}
+        />
+        <StatisticCard
+          num={4}
+          title="Em Progresso"
+          iconBg="bg-blue-200"
+          icon={<LoaderCircleIcon className="text-blue-700" />}
+        />
+        <StatisticCard
+          num={6}
+          title="Finalizada"
+          iconBg="bg-green-200"
+          icon={<CheckCircleIcon className="text-green-700" />}
+        />
+        <StatisticCard
+          num={2}
+          title="Cancelada"
+          iconBg="bg-red-200"
+          icon={<XIcon className="text-red-700" />}
+        />
       </div>
       <div>
         <Board />

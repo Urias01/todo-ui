@@ -12,7 +12,7 @@ interface TaskCardProps {
 
 export function TaskCard(task: TaskCardProps) {
   return (
-    <Card className="p-4 space-y-3 cursor-pointer hover:shadow-md transition bg-zinc-50 dark:bg-zinc-900">
+    <Card className="p-4 space-y-3 cursor-pointer hover:shadow-md transition bg-zinc-50 dark:bg-zinc-700">
       <div>
         <h3 className="font-medium text-sm">{task.title && task.title}</h3>
 
