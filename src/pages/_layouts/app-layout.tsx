@@ -1,7 +1,9 @@
 import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
-import { PlusIcon } from "lucide-react";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
+import { PlusCircle } from "lucide-react";
 import { Outlet } from "react-router-dom";
+import { TaskForm } from "../task/components/form/task-form";
 
 export function AppLayout() {
   return (
@@ -13,10 +15,14 @@ export function AppLayout() {
             <p className="text-zinc-500">Olá, Autor name!</p>
           </div>
           <div className="flex gap-2">
-            <Button variant="default" className="w-28">
-              <PlusIcon />
-              Nova Task
-            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="default" className="flex gap-2">
+                  <PlusCircle className="h-4 w-4" /> Tarefa
+                </Button>
+              </DialogTrigger>
+              <TaskForm />
+            </Dialog>
             <ModeToggle />
           </div>
         </div>
