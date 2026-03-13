@@ -10,7 +10,6 @@ import { useQuery } from "@tanstack/react-query";
 export function AppLayout() {
   const token = localStorage.getItem("token");
 
-  console.log(!!token);
   const { data } = useQuery({
     queryKey: ["loggeduser"],
     queryFn: getCurrentUser,
