@@ -11,6 +11,7 @@ import {
   XIcon
 } from "lucide-react";
 import { StaticCardSkeleton } from "./components/static-card-skeleton";
+import { BoardSkeleton } from "./components/board-skeleton";
 
 export function Task() {
   const { data, isLoading: isLoadingTask } = useQuery({
@@ -84,12 +85,15 @@ export function Task() {
         )}
       </header>
       <section className="space-y-4">
-        <Board
-          pending={pending || []}
-          inProgress={inProgress || []}
-          done={finished || []}
-          cancelled={cancelled || []}
-        />
+        {isLoadingTask && <BoardSkeleton />}
+        {data?.length !== undefined && (
+          <Board
+            pending={pending || []}
+            inProgress={inProgress || []}
+            done={finished || []}
+            cancelled={cancelled || []}
+          />
+        )}
       </section>
     </>
   );
