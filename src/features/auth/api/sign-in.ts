@@ -12,7 +12,7 @@ export async function signIn({
       password
     })
     .then((response) => {
-      return response.data;
+      return response.data.data;
     });
 
   return response;

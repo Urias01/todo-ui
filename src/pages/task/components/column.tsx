@@ -1,7 +1,6 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import type { TaskStatus } from "@/features/tasks/types/task-status";
 import type React from "react";
-
-type TaskStatus = "todo" | "in_progress" | "done" | "canceled";
 
 export interface columProps {
   status: TaskStatus;
@@ -44,28 +43,28 @@ type ColumnStyle = {
 };
 
 const columnStyles: Record<TaskStatus, ColumnStyle> = {
-  todo: {
+  PENDING: {
     title: "A Fazer",
     border: "border-zinc-200 dark:border-zinc-400",
     header: "text-zinc-700 dark:text-zinc-300",
     dot: "bg-zinc-400",
     background: "bg-zinc-50 dark:bg-zinc-600"
   },
-  in_progress: {
+  IN_PROGRESS: {
     title: "Em Progresso",
     border: "border-blue-200 dark:border-blue-400",
     header: "text-blue-700 dark:text-blue-200",
     dot: "bg-blue-500",
     background: "bg-blue-50 dark:bg-blue-700"
   },
-  done: {
+  DONE: {
     title: "Concluído",
     border: "border-green-200 dark:border-green-400",
     header: "text-green-700 dark:text-green-200",
     dot: "bg-green-500",
     background: "bg-green-50 dark:bg-green-700"
   },
-  canceled: {
+  CANCELLED: {
     title: "Cancelado",
     border: "border-red-200 dark:border-red-400",
     header: "text-red-700 dark:text-red-200",
