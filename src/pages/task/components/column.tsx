@@ -1,14 +1,25 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import type { TaskStatus } from "@/features/tasks/types/task-status";
-import type React from "react";
+import { TaskCard } from "./task-card";
+import { EmptyState } from "./empty-state";
+import type { TaskResponse } from "@/features/tasks/types/task-response";
+import { useDroppable } from "@dnd-kit/core";
+import {
+  SortableContext,
+  verticalListSortingStrategy
+} from "@dnd-kit/sortable";
 
 export interface columProps {
   status: TaskStatus;
-  count: number;
-  children: React.ReactNode;
+  tasks: TaskResponse[];
 }
 
-export function Column({ status, count, children }: columProps) {
+export function Column({ status, tasks = [] }: columProps) {
+  const { setNodeRef } = useDroppable({
+    id: status,
+    data: { status }
+  });
+
   const style = columnStyles[status];
 
   return (
@@ -20,15 +31,28 @@ export function Column({ status, count, children }: columProps) {
           className={`flex items-center gap-2 text-sm font-medium ${style.header}`}
         >
           <span className={`w-2 h-2 rounded-full ${style.dot}`} />
-
           {style.title}
         </CardTitle>
 
-        <span className="text-xs bg-muted px-2 py-1 rounded-full">{count}</span>
+        <span className="text-xs bg-muted px-2 py-1 rounded-full">
+          {tasks?.length ?? 0}
+        </span>
       </CardHeader>
 
-      <CardContent className="flex flex-col gap-3 overflow-y-auto">
-        {children}
+      <CardContent
+        ref={setNodeRef}
+        className="flex flex-col gap-3 overflow-y-auto"
+      >
+        <SortableContext
+          items={tasks?.map((t) => t.id)}
+          strategy={verticalListSortingStrategy}
+        >
+          {tasks?.length > 0 ? (
+            tasks.map((task) => <TaskCard key={task.id} task={task} />)
+          ) : (
+            <EmptyState />
+          )}
+        </SortableContext>
       </CardContent>
     </Card>
   );
@@ -57,7 +81,7 @@ const columnStyles: Record<TaskStatus, ColumnStyle> = {
     dot: "bg-blue-500",
     background: "bg-blue-50 dark:bg-blue-700"
   },
-  DONE: {
+  FINISHED: {
     title: "Concluído",
     border: "border-green-200 dark:border-green-400",
     header: "text-green-700 dark:text-green-200",

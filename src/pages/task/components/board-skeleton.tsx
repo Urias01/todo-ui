@@ -14,7 +14,7 @@ export function BoardSkeleton() {
           <TaskCardSkeleton />
         </Column>
 
-        <Column status={TaskStatus.DONE} count={0}>
+        <Column status={TaskStatus.FINISHED} count={0}>
           <TaskCardSkeleton />
         </Column>
 

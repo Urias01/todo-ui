@@ -19,23 +19,12 @@ export function Task() {
     queryFn: getTasks
   });
 
-  const total = data?.length;
+  const tasks = data ?? [];
 
-  const pending = data
-    ?.filter((x) => x.status === TaskStatus.PENDING)
-    .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
-
-  const inProgress = data
-    ?.filter((x) => x.status === TaskStatus.IN_PROGRESS)
-    .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
-
-  const finished = data
-    ?.filter((x) => x.status === TaskStatus.DONE)
-    .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
-
-  const cancelled = data
-    ?.filter((x) => x.status === TaskStatus.CANCELLED)
-    .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+  const pending = tasks.filter((x) => x.status === TaskStatus.PENDING);
+  const inProgress = tasks.filter((x) => x.status === TaskStatus.IN_PROGRESS);
+  const finished = tasks.filter((x) => x.status === TaskStatus.FINISHED);
+  const cancelled = tasks.filter((x) => x.status === TaskStatus.CANCELLED);
 
   return (
     <>
@@ -52,31 +41,31 @@ export function Task() {
         {data?.length !== undefined && (
           <>
             <StatisticCard
-              num={total || 0}
+              num={tasks.length}
               title="Total"
               iconBg="bg-zinc-300"
               icon={<ListTodoIcon className="text-zinc-700" />}
             />
             <StatisticCard
-              num={pending?.length || 0}
+              num={pending.length}
               title="A Fazer"
               iconBg="bg-zinc-300"
               icon={<ClockIcon className="text-zinc-700" />}
             />
             <StatisticCard
-              num={inProgress?.length || 0}
+              num={inProgress.length}
               title="Em Progresso"
               iconBg="bg-blue-200"
               icon={<LoaderCircleIcon className="text-blue-700" />}
             />
             <StatisticCard
-              num={finished?.length || 0}
+              num={finished.length}
               title="Finalizada"
               iconBg="bg-green-200"
               icon={<CheckCircleIcon className="text-green-700" />}
             />
             <StatisticCard
-              num={cancelled?.length || 0}
+              num={cancelled.length}
               title="Cancelada"
               iconBg="bg-red-200"
               icon={<XIcon className="text-red-700" />}
@@ -86,14 +75,7 @@ export function Task() {
       </header>
       <section className="space-y-4">
         {isLoadingTask && <BoardSkeleton />}
-        {data?.length !== undefined && (
-          <Board
-            pending={pending || []}
-            inProgress={inProgress || []}
-            done={finished || []}
-            cancelled={cancelled || []}
-          />
-        )}
+        {data?.length !== undefined && <Board tasks={tasks} />}
       </section>
     </>
   );

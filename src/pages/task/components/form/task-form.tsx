@@ -127,7 +127,7 @@ export function TaskForm() {
                 <SelectContent>
                   <SelectItem value="PENDING">Pendente</SelectItem>
                   <SelectItem value="IN_PROGRESS">Em andamento</SelectItem>
-                  <SelectItem value="DONE">Concluído</SelectItem>
+                  <SelectItem value="FINISHED">Concluído</SelectItem>
                   <SelectItem value="CANCELLED">Cancelada</SelectItem>
                 </SelectContent>
               </Select>
