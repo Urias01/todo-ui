@@ -19,6 +19,7 @@ export function Board({ pending, inProgress, done, cancelled }: BoardProps) {
           {pending.length !== undefined && pending.length > 0 ? (
             pending.map((p) => (
               <TaskCard
+                key={p.id}
                 title={p.title}
                 description={p.description}
                 status={p.status}
@@ -33,13 +34,14 @@ export function Board({ pending, inProgress, done, cancelled }: BoardProps) {
 
         <Column status={TaskStatus.IN_PROGRESS} count={inProgress.length}>
           {inProgress.length !== undefined && inProgress.length > 0 ? (
-            inProgress.map((p) => (
+            inProgress.map((ip) => (
               <TaskCard
-                title={p.title}
-                description={p.description}
-                status={p.status}
-                quantitySubtask={p.subtasks.length || 0}
-                createdAt={new Date(p.createdAt)}
+                key={ip.id}
+                title={ip.title}
+                description={ip.description}
+                status={ip.status}
+                quantitySubtask={ip.subtasks.length || 0}
+                createdAt={new Date(ip.createdAt)}
               />
             ))
           ) : (
@@ -49,13 +51,14 @@ export function Board({ pending, inProgress, done, cancelled }: BoardProps) {
 
         <Column status={TaskStatus.DONE} count={done.length}>
           {done.length !== undefined && done.length > 0 ? (
-            done.map((p) => (
+            done.map((d) => (
               <TaskCard
-                title={p.title}
-                description={p.description}
-                status={p.status}
-                quantitySubtask={p.subtasks.length || 0}
-                createdAt={new Date(p.createdAt)}
+                key={d.id}
+                title={d.title}
+                description={d.description}
+                status={d.status}
+                quantitySubtask={d.subtasks.length || 0}
+                createdAt={new Date(d.createdAt)}
               />
             ))
           ) : (
@@ -65,13 +68,14 @@ export function Board({ pending, inProgress, done, cancelled }: BoardProps) {
 
         <Column status={TaskStatus.CANCELLED} count={cancelled.length}>
           {cancelled.length !== undefined && cancelled.length > 0 ? (
-            cancelled.map((p) => (
+            cancelled.map((c) => (
               <TaskCard
-                title={p.title}
-                description={p.description}
-                status={p.status}
-                quantitySubtask={p.subtasks.length || 0}
-                createdAt={new Date(p.createdAt)}
+                key={c.id}
+                title={c.title}
+                description={c.description}
+                status={c.status}
+                quantitySubtask={c.subtasks.length || 0}
+                createdAt={new Date(c.createdAt)}
               />
             ))
           ) : (

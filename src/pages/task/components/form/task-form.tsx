@@ -1,6 +1,6 @@
 import { TaskStatus } from "@/features/tasks/types/task-status";
 import { z } from "zod";
-import { Controller, Form, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { createTask } from "@/features/tasks/api/create-task";
@@ -66,6 +66,7 @@ export function TaskForm() {
   });
 
   async function handleSubmitTask(data: TaskSchema) {
+    console.log("HERE");
     await createTaskFn(data)
       .then(() => {
         toast.success("Task criada com sucesso");
@@ -87,59 +88,58 @@ export function TaskForm() {
         <DialogTitle>Criar nova tarefa</DialogTitle>
         <DialogDescription>Crie uma nova tarefa.</DialogDescription>
       </DialogHeader>
-      <Form {...form}>
-        <form
-          onSubmit={handleSubmit(handleSubmitTask)}
-          className="grid gap-4 py-4"
-        >
-          <FieldGroup>
-            <Field>
-              <FieldLabel htmlFor="title">Título</FieldLabel>
-              <Input
-                id="title"
-                placeholder="Título"
-                autoComplete="off"
-                {...register("title")}
-              />
-              <FieldDescription>Título da sua tarefa</FieldDescription>
-              {form.formState.errors.title && (
-                <FieldError errors={[form.formState.errors.title]} />
-              )}
-            </Field>
-            <Field>
-              <FieldLabel htmlFor="description">Descrição</FieldLabel>
-
-              <Textarea id="description" {...form.register("description")} />
-
-              {form.formState.errors.description && (
-                <FieldError errors={[form.formState.errors.description]} />
-              )}
-            </Field>
-            <Controller
-              name="status"
-              control={form.control}
-              render={({ field }) => (
-                <Select value={field.value} onValueChange={field.onChange}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Status" />
-                  </SelectTrigger>
-
-                  <SelectContent>
-                    <SelectItem value="PENDING">Pendente</SelectItem>
-                    <SelectItem value="IN_PROGRESS">Em andamento</SelectItem>
-                    <SelectItem value="DONE">Concluído</SelectItem>
-                    <SelectItem value="CANCELLED">Cancelada</SelectItem>
-                  </SelectContent>
-                </Select>
-              )}
+      <form
+        onSubmit={handleSubmit(handleSubmitTask)}
+        className="grid gap-4 py-4"
+      >
+        <FieldGroup>
+          <Field>
+            <FieldLabel htmlFor="title">Título</FieldLabel>
+            <Input
+              id="title"
+              placeholder="Título"
+              autoComplete="off"
+              {...register("title")}
             />
-          </FieldGroup>
-          <Separator className="w-full" />
-          <DialogFooter>
-            <Button type="submit">Criar tarefa</Button>
-          </DialogFooter>
-        </form>
-      </Form>
+            <FieldDescription>Título da sua tarefa</FieldDescription>
+            {form.formState.errors.title && (
+              <FieldError errors={[form.formState.errors.title]} />
+            )}
+          </Field>
+          <Field>
+            <FieldLabel htmlFor="description">Descrição</FieldLabel>
+
+            <Textarea id="description" {...form.register("description")} />
+
+            {form.formState.errors.description && (
+              <FieldError errors={[form.formState.errors.description]} />
+            )}
+          </Field>
+          <Controller
+            name="status"
+            control={form.control}
+            render={({ field }) => (
+              <Select value={field.value} onValueChange={field.onChange}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Status" />
+                </SelectTrigger>
+
+                <SelectContent>
+                  <SelectItem value="PENDING">Pendente</SelectItem>
+                  <SelectItem value="IN_PROGRESS">Em andamento</SelectItem>
+                  <SelectItem value="DONE">Concluído</SelectItem>
+                  <SelectItem value="CANCELLED">Cancelada</SelectItem>
+                </SelectContent>
+              </Select>
+            )}
+          />
+          <Input type="userIds" {...register("userIds")} className="hidden" />
+        </FieldGroup>
+        <Separator className="w-full" />
+        <DialogFooter>
+          <Button type="submit">Criar tarefa</Button>
+        </DialogFooter>
+      </form>
     </DialogContent>
   );
 }
