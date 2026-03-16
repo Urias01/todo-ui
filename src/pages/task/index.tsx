@@ -1,6 +1,6 @@
 import { getTasks } from "@/features/tasks/api/get-tasks";
 import { TaskStatus } from "@/features/tasks/types/task-status";
-import { Board } from "@/pages/task/components/board";
+import { Board } from "@/pages/task/components/boards/board";
 import { StatisticCard } from "@/pages/task/components/statistic-card";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -11,7 +11,7 @@ import {
   XIcon
 } from "lucide-react";
 import { StaticCardSkeleton } from "./components/static-card-skeleton";
-import { BoardSkeleton } from "./components/board-skeleton";
+import { BoardSkeleton } from "./components/boards/board-skeleton";
 
 export function Task() {
   const { data, isLoading: isLoadingTask } = useQuery({

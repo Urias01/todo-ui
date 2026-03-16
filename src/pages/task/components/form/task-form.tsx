@@ -66,7 +66,6 @@ export function TaskForm() {
   });
 
   async function handleSubmitTask(data: TaskSchema) {
-    console.log("HERE");
     await createTaskFn(data)
       .then(() => {
         toast.success("Task criada com sucesso");

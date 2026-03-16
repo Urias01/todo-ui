@@ -8,13 +8,15 @@ import {
   SortableContext,
   verticalListSortingStrategy
 } from "@dnd-kit/sortable";
+import type React from "react";
 
 export interface columProps {
   status: TaskStatus;
   tasks: TaskResponse[];
+  children?: React.ReactNode;
 }
 
-export function Column({ status, tasks = [] }: columProps) {
+export function Column({ status, children, tasks = [] }: columProps) {
   const { setNodeRef } = useDroppable({
     id: status,
     data: { status }
@@ -47,6 +49,8 @@ export function Column({ status, tasks = [] }: columProps) {
           items={tasks?.map((t) => t.id)}
           strategy={verticalListSortingStrategy}
         >
+          {children && children}
+
           {tasks?.length > 0 ? (
             tasks.map((task) => <TaskCard key={task.id} task={task} />)
           ) : (
