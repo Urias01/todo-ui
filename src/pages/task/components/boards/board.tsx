@@ -14,6 +14,9 @@ import { useMutation } from "@tanstack/react-query";
 import { updateTaskStatus } from "@/features/tasks/api/update-task-status";
 import { queryClient } from "@/lib/react-query";
 import { toast } from "sonner";
+import { Dialog } from "@/components/ui/dialog";
+import { useSearchParams } from "react-router-dom";
+import { TaskDetail } from "../dialogs/task-detail";
 
 interface BoardProps {
   tasks: TaskResponse[];
@@ -21,7 +24,13 @@ interface BoardProps {
 
 export function Board({ tasks }: BoardProps) {
   const [activeTask, setActiveTask] = useState<TaskResponse | null>(null);
+  const [params, setParams] = useSearchParams();
 
+  const taskId = params.get("taskId");
+
+  function handleClose() {
+    setParams({});
+  }
   const pending = tasks.filter((t) => t.status === TaskStatus.PENDING);
   const inProgress = tasks.filter((t) => t.status === TaskStatus.IN_PROGRESS);
   const finished = tasks.filter((t) => t.status === TaskStatus.FINISHED);
@@ -87,6 +96,10 @@ export function Board({ tasks }: BoardProps) {
         <DragOverlay>
           {activeTask ? <TaskCard task={activeTask} isDragging /> : null}
         </DragOverlay>
+
+        <Dialog open={!!taskId} onOpenChange={handleClose}>
+          {taskId && <TaskDetail id={taskId} />}
+        </Dialog>
       </div>
     </DndContext>
   );
