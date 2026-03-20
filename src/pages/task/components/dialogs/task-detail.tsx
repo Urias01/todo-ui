@@ -70,6 +70,9 @@ export function TaskDetail({ id }: TaskDetailProps) {
       queryClient.invalidateQueries({
         queryKey: ["task"]
       });
+      queryClient.invalidateQueries({
+        queryKey: ["tasks"]
+      });
     }
   });
 
@@ -87,6 +90,9 @@ export function TaskDetail({ id }: TaskDetailProps) {
     mutationFn: updateSubtaskStatus,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["task"] });
+      queryClient.invalidateQueries({
+        queryKey: ["tasks"]
+      });
     }
   });
 
@@ -118,101 +124,96 @@ export function TaskDetail({ id }: TaskDetailProps) {
 
   return (
     <>
-      {isLoading ? (
-        <TaskDetailSkeleton />
-      ) : (
-        task !== undefined && (
-          <DialogContent className="sm:max-w-md">
-            <DialogHeader>
-              <DialogTitle>{task.title}</DialogTitle>
-              <DialogDescription>{task.description}</DialogDescription>
-            </DialogHeader>
+      {isLoading && <TaskDetailSkeleton />}
+      {task !== undefined && (
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>{task.title}</DialogTitle>
+            <DialogDescription>{task.description}</DialogDescription>
+          </DialogHeader>
 
-            <div className="flex flex-col gap-3">
-              <div className="flex gap-2 items-center">
-                <Badge variant="secondary">{task.status}</Badge>
-                <div className="flex items-center text-xs text-muted-foreground gap-1">
-                  <Calendar size={14} />
-                  {formatDate(task.createdAt)}
-                </div>
+          <div className="flex flex-col gap-3">
+            <div className="flex gap-2 items-center">
+              <Badge variant="secondary">{task.status}</Badge>
+              <div className="flex items-center text-xs text-muted-foreground gap-1">
+                <Calendar size={14} />
+                {formatDate(task.createdAt)}
               </div>
-
-              <div className="flex flex-col gap-2">
-                <h3 className="text-md font-bold">
-                  Subtasks ({task.subtasks.length || 0})
-                </h3>
-                {task.subtasks.length > 0 &&
-                  task.subtasks.map((sbt) => (
-                    <div
-                      key={sbt.id}
-                      className="flex justify-between items-center gap-2 bg-zinc-400 dark:bg-zinc-600 rounded-md p-2 pl-4 pr-4"
-                    >
-                      <h4 className="text-sm font-bold truncate flex-1">
-                        {sbt.title}
-                      </h4>
-                      <form {...changeStatusForm}>
-                        <Controller
-                          name="status"
-                          control={changeStatusForm.control}
-                          render={() => (
-                            <Select
-                              value={sbt.status}
-                              onValueChange={(value: TaskStatus) =>
-                                handleChangeStatus(sbt.id, task.id, value)
-                              }
-                            >
-                              <SelectTrigger className="w-full min-w-45">
-                                <SelectValue placeholder="Status" />
-                              </SelectTrigger>
-
-                              <SelectContent>
-                                <SelectItem value="PENDING">
-                                  Pendente
-                                </SelectItem>
-                                <SelectItem value="IN_PROGRESS">
-                                  Em andamento
-                                </SelectItem>
-                                <SelectItem value="FINISHED">
-                                  Concluído
-                                </SelectItem>
-                                <SelectItem value="CANCELLED">
-                                  Cancelada
-                                </SelectItem>
-                              </SelectContent>
-                            </Select>
-                          )}
-                        />
-                      </form>
-
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => handleDeleteSubtask(task.id, sbt.id)}
-                      >
-                        <TrashIcon className="h-3 w-3" />
-                      </Button>
-                    </div>
-                  ))}
-              </div>
-
-              <form
-                className="flex gap-2"
-                onSubmit={handleSubmit(handleCreateSubtask)}
-              >
-                <FieldGroup>
-                  <Input
-                    type="text"
-                    placeholder="Título"
-                    {...register("title")}
-                  />
-                </FieldGroup>
-                <Button type="submit" variant="outline">
-                  <PlusIcon className="h-4 w-4" />
-                </Button>
-              </form>
             </div>
-          </DialogContent>
-        )
+
+            <div className="flex flex-col gap-2">
+              <h3 className="text-md font-bold">
+                Subtasks ({task.subtasks.length || 0})
+              </h3>
+              {task.subtasks.length > 0 &&
+                task.subtasks.map((sbt) => (
+                  <div
+                    key={sbt.id}
+                    className="flex justify-between items-center gap-2 bg-zinc-400 dark:bg-zinc-600 rounded-md p-2 pl-4 pr-4"
+                  >
+                    <h4 className="text-sm font-bold truncate flex-1">
+                      {sbt.title}
+                    </h4>
+                    <form {...changeStatusForm}>
+                      <Controller
+                        name="status"
+                        control={changeStatusForm.control}
+                        render={() => (
+                          <Select
+                            value={sbt.status}
+                            onValueChange={(value: TaskStatus) =>
+                              handleChangeStatus(sbt.id, task.id, value)
+                            }
+                          >
+                            <SelectTrigger className="w-full min-w-45">
+                              <SelectValue placeholder="Status" />
+                            </SelectTrigger>
+
+                            <SelectContent>
+                              <SelectItem value="PENDING">Pendente</SelectItem>
+                              <SelectItem value="IN_PROGRESS">
+                                Em andamento
+                              </SelectItem>
+                              <SelectItem value="FINISHED">
+                                Concluído
+                              </SelectItem>
+                              <SelectItem value="CANCELLED">
+                                Cancelada
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                        )}
+                      />
+                    </form>
+
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => handleDeleteSubtask(task.id, sbt.id)}
+                    >
+                      <TrashIcon className="h-3 w-3" />
+                    </Button>
+                  </div>
+                ))}
+            </div>
+
+            <form
+              className="flex gap-2"
+              onSubmit={handleSubmit(handleCreateSubtask)}
+            >
+              <FieldGroup>
+                <Input
+                  type="text"
+                  placeholder="Título"
+                  {...register("title")}
+                />
+              </FieldGroup>
+              <Button type="submit" variant="outline">
+                <PlusIcon className="h-4 w-4" />
+              </Button>
+            </form>
+          </div>
+        </DialogContent>
       )}
     </>
   );
